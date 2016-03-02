@@ -1,0 +1,37 @@
+﻿
+<html>
+<head>
+    <title>The World Page - @ViewBag.Title</title>
+    <meta charset="utf-8" />
+
+    <link href="~/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="sidebar">
+        <img src="~/img/user1.jpg" alt="Sam Hasting" class="headshot" />
+        <span id="username">Sam Hasting</span>
+        <ul class="menu">
+            <li class="active"><a asp-controller="App" asp-action="Index">Home</a></li>
+            <li><a asp-controller="App" asp-action="About">About</a></li>
+            <li><a asp-controller="App" asp-action="Contact">Contact test</a></li>
+        </ul>
+    </div>
+
+    <div id="wrapper">
+        <div id="main">
+            <div>
+                <button id="sidebarToggle">Toggle Menu</button>
+            </div>
+            <div>
+                @RenderBody()
+            </div>
+        </div>
+        <div id="footer">
+            &copy; 2015 The World
+        </div>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/js/site.js"></script>
+    @RenderSection("Scripts", false)
+</body>
+</html>
