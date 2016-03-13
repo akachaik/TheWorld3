@@ -43,6 +43,8 @@ namespace TheWorld3
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<WorldContext>();
+
+            services.AddScoped<CoordService>();
             services.AddTransient<WorldContextSeedData>();
 
             services.AddScoped<IMailService, MailService>();
