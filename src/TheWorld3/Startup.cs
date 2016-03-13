@@ -11,6 +11,7 @@ using Microsoft.Framework.Configuration;
 using TheWorld3.Services;
 using TheWorld3.Models;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Serialization;
 
 namespace TheWorld3
 {
@@ -29,7 +30,11 @@ namespace TheWorld3
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                });
 
             services.AddLogging();
 
