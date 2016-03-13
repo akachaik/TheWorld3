@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Framework.Configuration;
 using TheWorld3.Services;
 using TheWorld3.Models;
+using Microsoft.Extensions.Logging;
 
 namespace TheWorld3
 {
@@ -29,6 +30,9 @@ namespace TheWorld3
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddLogging();
+
             services.AddEntityFramework()
                 .AddSqlServer()
                 .AddDbContext<WorldContext>();
@@ -40,8 +44,9 @@ namespace TheWorld3
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, WorldContextSeedData seeder)
+        public void Configure(IApplicationBuilder app, WorldContextSeedData seeder, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddDebug(LogLevel.Warning);
             //app.UseIISPlatformHandler();
 
             //app.Run(async (context) =>
