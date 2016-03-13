@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
@@ -11,11 +13,13 @@ namespace TheWorld3.Controllers.Api
     [Route("api/trips")]
     public class TripContrller : Controller
     {
+        private ILogger<TripContrller> _logger;
         private IWorldRepository _repository;
 
-        public TripContrller(IWorldRepository repository)
+        public TripContrller(IWorldRepository repository, ILogger<TripContrller> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
 
         [HttpGet("")]
@@ -28,14 +32,25 @@ namespace TheWorld3.Controllers.Api
         [HttpPost("")]
         public JsonResult Post([FromBody]TripViewModel vm)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var newTrip = Mapper.Map<Trip>(vm);
+                if (ModelState.IsValid)
+                {
+                    var newTrip = Mapper.Map<Trip>(vm);
 
-                // Save to database
+                    // Save to database
+                    _logger.LogInformation("Attemping to save a new trip");
 
-                Response.StatusCode = (int)HttpStatusCode.Created;
-                return Json(Mapper.Map<TripViewModel>(newTrip));
+                    Response.StatusCode = (int)HttpStatusCode.Created;
+                    return Json(Mapper.Map<TripViewModel>(newTrip));
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Failed to save new trip", ex);
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { message = ex.Message });
+
             }
 
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
