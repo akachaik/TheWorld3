@@ -12,6 +12,8 @@ using TheWorld3.Services;
 using TheWorld3.Models;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using AutoMapper;
+using TheWorld3.VieweModels;
 
 namespace TheWorld3
 {
@@ -60,6 +62,12 @@ namespace TheWorld3
             //});
             //app.UseDefaultFiles();
             app.UseStaticFiles();
+
+            Mapper.Initialize(config =>
+            {
+                config.CreateMap<Trip, TripViewModel>().ReverseMap();
+            });
+
             app.UseMvc(config =>
             {
                 config.MapRoute("Default", "{controller}/{action}/{id?}", new { controller = "App", action = "Index" });

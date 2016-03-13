@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNet.Mvc;
+using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using TheWorld3.Models;
 using TheWorld3.VieweModels;
@@ -18,17 +21,21 @@ namespace TheWorld3.Controllers.Api
         [HttpGet("")]
         public JsonResult Get()
         {
-            var results = _repository.GetAllTripsWithStops();
+            var results = Mapper.Map<IEnumerable<TripViewModel>>(_repository.GetAllTripsWithStops());
             return Json(results);
         }
 
         [HttpPost("")]
-        public JsonResult Post([FromBody]TripViewModel newTrip)
+        public JsonResult Post([FromBody]TripViewModel vm)
         {
             if (ModelState.IsValid)
             {
+                var newTrip = Mapper.Map<Trip>(vm);
+
+                // Save to database
+
                 Response.StatusCode = (int)HttpStatusCode.Created;
-                return Json(true);
+                return Json(Mapper.Map<TripViewModel>(newTrip));
             }
 
             Response.StatusCode = (int)HttpStatusCode.BadRequest;
