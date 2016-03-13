@@ -9,20 +9,30 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Framework.Configuration;
 using TheWorld3.Services;
+using TheWorld3.Models;
 
 namespace TheWorld3
 {
     public class Startup
     {
+        public static Microsoft.Extensions.Configuration.IConfiguration Configuration;
         public Startup()
         {
-            var builder = new Microsoft.Extensions.Configuration.ConfigurationBuilder().AddEnvironmentVariables();
+            var builder = new Microsoft.Extensions.Configuration.ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddEntityFramework()
+                .AddSqlServer()
+                .AddDbContext<WorldContext>();
+
             services.AddScoped<IMailService, MailService>();
         }
 
