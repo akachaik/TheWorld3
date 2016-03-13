@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
 namespace TheWorld3.Services
 {
@@ -15,7 +17,7 @@ namespace TheWorld3.Services
         {
             _logger = logger;
         }
-        public CoorServiceResult Lookup(string location)
+        public async Task<CoorServiceResult> Lookup(string location)
         {
             var result = new CoorServiceResult
             {
@@ -28,9 +30,33 @@ namespace TheWorld3.Services
 
             var encodedName = WebUtility.UrlEncode(location);
 
-            //var url = "http://dev.virtualearth.net/REST";
+            var url = "http://dev.virtualearth.net/REST";
 
+            var client = new HttpClient();
 
+            var json = await client.GetStringAsync(url);
+            var results = JObject.Parse(json);
+            var resources = results["resourceSets"][0]["resources"];
+            if (!resources.HasValues)
+            {
+                result.Message = $"Could not find '{location}' as a location";
+            }
+            else
+            {
+                var confidence = (string)resources[0]["confidence"];
+                if (confidence != "High")
+                {
+                    result.Message = $"Could not find a confidence match for '{location}' as a location";
+                }
+                else
+                {
+                    var coords = resources[0]["geocodePoints"][0]["coordinates"];
+                    result.Latitude = (double)coords[0];
+                    result.Longitude = (double)coords[1];
+                    result.Success = true;
+                    result.Message = "Success";
+                }
+            }
             return result;
         }
 
