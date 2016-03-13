@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace TheWorld3.VieweModels
+namespace TheWorld3.ViewModels
 {
     public class TripViewModel
     {
@@ -13,5 +15,7 @@ namespace TheWorld3.VieweModels
 
 
         public DateTime Created { get; set; } = DateTime.UtcNow;
+
+        public IEnumerable<StopViewModel> Stops { get; set; }
     }
 }

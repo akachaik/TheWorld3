@@ -13,7 +13,7 @@ using TheWorld3.Models;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using AutoMapper;
-using TheWorld3.VieweModels;
+using TheWorld3.ViewModels;
 
 namespace TheWorld3
 {
@@ -66,6 +66,7 @@ namespace TheWorld3
             Mapper.Initialize(config =>
             {
                 config.CreateMap<Trip, TripViewModel>().ReverseMap();
+                config.CreateMap<Stop, StopViewModel>().ReverseMap();
             });
 
             app.UseMvc(config =>

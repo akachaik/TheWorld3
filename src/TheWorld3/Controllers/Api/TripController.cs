@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using TheWorld3.Models;
-using TheWorld3.VieweModels;
+using TheWorld3.ViewModels;
 
 namespace TheWorld3.Controllers.Api
 {

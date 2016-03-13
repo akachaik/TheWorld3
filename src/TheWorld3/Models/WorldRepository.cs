@@ -49,6 +49,13 @@ namespace TheWorld3.Models
             }
         }
 
+        public Trip GetTripByName(string tripName)
+        {
+            return _context.Trips
+                .Include(t => t.Stops)
+                .FirstOrDefault(t => t.Name == tripName);
+        }
+
         public bool SaveAll()
         {
             return _context.SaveChanges() > 0;
