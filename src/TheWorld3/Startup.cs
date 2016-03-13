@@ -35,6 +35,8 @@ namespace TheWorld3
             services.AddTransient<WorldContextSeedData>();
 
             services.AddScoped<IMailService, MailService>();
+            services.AddScoped<IWorldRepository, WorldRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

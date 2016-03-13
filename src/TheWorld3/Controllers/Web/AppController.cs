@@ -10,16 +10,16 @@ namespace TheWorld3.Controllers.Web
     public class AppController : Controller
     {
         private IMailService _mailService;
-        private WorldContext _worldContext;
+        private IWorldRepository _repository;
 
-        public AppController(IMailService mailService, WorldContext worldContext)
+        public AppController(IMailService mailService, IWorldRepository repository)
         {
             _mailService = mailService;
-            _worldContext = worldContext;
+            _repository = repository;
         }
         public IActionResult Index()
         {
-            var trips = _worldContext.Trips.OrderBy(t => t.Name).ToList();
+            var trips = _repository.GetAllTrips();
             return View(trips);
         }
 
