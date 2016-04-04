@@ -30,7 +30,7 @@ namespace TheWorld3.Services
 
             var encodedName = WebUtility.UrlEncode(location);
 
-            var url = "http://dev.virtualearth.net/REST";
+            var url = $"http://dev.virtualearth.net/REST/v1/Locations?q={encodedName}&key={bingKey}";
 
             var client = new HttpClient();
 
