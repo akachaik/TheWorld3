@@ -53,7 +53,7 @@ namespace TheWorld3
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, WorldContextSeedData seeder, ILoggerFactory loggerFactory)
+        public async void Configure(IApplicationBuilder app, WorldContextSeedData seeder, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddDebug(LogLevel.Warning);
             //app.UseIISPlatformHandler();
@@ -76,7 +76,7 @@ namespace TheWorld3
                 config.MapRoute("Default", "{controller}/{action}/{id?}", new { controller = "App", action = "Index" });
             });
 
-            seeder.EnsureSeedData();
+            await seeder.EnsureSeedDataAsync();
         }
 
         // Entry point for the application.
