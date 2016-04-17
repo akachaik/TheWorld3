@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Authorization;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,6 +11,7 @@ using TheWorld3.ViewModels;
 
 namespace TheWorld3.Controllers.Api
 {
+    [Authorize]
     [Route("api/trips")]
     public class TripContrller : Controller
     {
